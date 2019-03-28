@@ -4,6 +4,9 @@ import pygame
 import random
 import os
 import math
+from gi import require_version as require
+require('Gtk','3.0')
+from gi.repository import Gtk
 
 from sprites.sun import Sun
 from sprites.horse import Horse
@@ -115,6 +118,7 @@ class MathHurdler:
         self.last_answer_index = -1
         question_dirty = True
 
+        pygame.display.init()
         display_info = pygame.display.Info()
         background_color = Color.SKYBLUE
 
@@ -246,6 +250,9 @@ class MathHurdler:
             self.buttons[self.question.answer_index].set_color(Color.GREEN, False)
 
         while self.running:
+            #Processing Gtk Events
+            while Gtk.events_pending():
+                Gtk.main_iteration()
             if self.playing:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
